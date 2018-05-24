@@ -1,6 +1,7 @@
 {
     "name": "aaronkaa/ccpclient",
     "description": "Cloud Commerce Pro API Client for Laravel",
+    "version": "0.0.1",
     "authors": [
         {
             "name": "Aaron Carr",
