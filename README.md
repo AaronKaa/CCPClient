@@ -35,7 +35,7 @@ use AKaa\CCPCLient\Client\CustomerClient;
 To use the API, get an instance of the service youd like to use 
 
 ```
-$productCLient = new ProductClient();
+$productClient = new ProductClient();
 
 $result = $productClient->getProductByID(12345);
 ```
