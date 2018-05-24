@@ -1,6 +1,13 @@
 <?php
 namespace AKaa\CCPApi\Client;
 
+use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfString;
+use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfInt32;
+use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfListOfString;
+
+use AKaa\CCPApi\Client\SoapObjects\Order\RequestObjectOfAPIGetOrdersRequest;
+use AKaa\CCPApi\Client\SoapObjects\Order\APIGetOrdersRequest;
+
 /**
  * OrderClient class.
  *
@@ -10,28 +17,94 @@ class OrderClient extends CCPSoapClient
 {
     protected $servicepoint = "CCPApiOrderService.svc";
     
-    public function getOrders ()
+    /**
+     * getOrders function.
+     * 
+     * @access public
+     * @param mixed $date (default: null)
+     * @param string $customer_type (default: "TradeAndRetail")
+     * @param mixed $priority (default: null)
+     * @param mixed $order_type (default: null)
+     * @param int $no_of_days (default: 1)
+     * @return void
+     */
+    public function getOrders ( $date = null, $customer_type = "TradeAndRetail", $priority = null, $order_type = null, $no_of_days = 1)
     {
+	    $getOrdersRequest = new APIGetOrdersRequest();
+	    
+	    $getOrdersRequest->setNumberofdays($no_of_days)
+	    				 ->setStrCustType($customer_type);
+	    
+	    if(!is_null($date)){
+	    	$getOrdersRequest->setDtFilter($date);
+	    }
+	    
+		if(!is_null($priority)){
+			$getOrdersRequest->setStrPriority($priority);
+		}
+		
+		if(!is_null($order_type)){
+			$getOrdersRequest->setStrOrderType($order_type);
+		}
+	    
+	    $request = new RequestObjectOfAPIGetOrdersRequest($getOrdersRequest);
+	    
 	    return $this->ccpCall('getOrders', $request);
     }
     
-    public function getInvoiceSummaryForOrderID  ()
+    /**
+     * getInvoiceSummaryForOrderID function.
+     * 
+     * @access public
+     * @param mixed $order_id
+     * @return void
+     */
+    public function getInvoiceSummaryForOrderID  ($order_id)
     {
+	    $request = new RequestObjectOfInt32($order_id);
+	    
 	    return $this->ccpCall('getInvoiceSummaryForOrderID ', $request);
     }
     
-    public function getOrderById ()
+    /**
+     * getOrderById function.
+     * 
+     * @access public
+     * @param mixed $order_id
+     * @return void
+     */
+    public function getOrderById ($order_id)
     {
+	    $request = new RequestObjectOfInt32($order_id);
+	    
 	    return $this->ccpCall('getOrderById', $request);
     }
     
-    public function getOrderDetailsById ()
+    /**
+     * getOrderDetailsById function.
+     * 
+     * @access public
+     * @param mixed $order_id
+     * @return void
+     */
+    public function getOrderDetailsById ($order_id)
     {
+	    $request = new RequestObjectOfInt32($order_id);
+	    
 	    return $this->ccpCall('getOrderDetailsById', $request);
     }
     
-    public function getOrderDetailsByReference ()
+    /**
+     * getOrderDetailsByReference function.
+     * 
+     * @access public
+     * @param mixed $reference
+     * @return void
+     */
+    public function getOrderDetailsByReference ($reference)
     {
+	    $request = new RequestObjectOfString($reference);
+	    
 	    return $this->ccpCall('getOrderDetailsByReference', $request);
     }
     
