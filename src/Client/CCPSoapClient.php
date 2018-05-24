@@ -53,7 +53,6 @@ class CCPSoapClient extends SoapService
      * __construct function.
      * 
      * @access public
-     * @return void
      */
     public function __construct()
     {
@@ -66,10 +65,23 @@ class CCPSoapClient extends SoapService
      * 
      * @access public
      * @param mixed $request
-     * @return void
+     * @return array
      */
     public function wrapRequest($request)
     {
         return ['parameters' => ['request' => $request]];
+    }
+    
+    /**
+     * ccpCall function.
+     * 
+     * @access public
+     * @param mixed $function
+     * @param mixed $request
+     * @return mixed
+     */
+    public function ccpCall($function, $request)
+    {
+	    return $this->call($function, self::wrapRequest($request));
     }
 }

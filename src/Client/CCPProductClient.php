@@ -38,7 +38,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfString();
 
-        return $this->call('getActiveSalesChannels', self::wrapRequest($request));
+        return $this->ccpCall('getActiveSalesChannels', $request);
     }
 
     /**
@@ -55,7 +55,7 @@ class CCPProductClient extends CCPSoapClient
         $requestContent = new APIProductGetProductListRequest($start, $end, $sales_channel);
         $request = new RequestObjectOfAPIProductGetProductListRequest($requestContent);
 
-        return $this->call('getProducts', self::wrapRequest($request));
+        return $this->ccpCall('getProducts', $request);
     }
 
     /**
@@ -69,7 +69,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfString($skus);
 
-        return $this->call('GetStockLevelsBySKUList', self::wrapRequest($request));
+        return $this->ccpCall('GetStockLevelsBySKUList', $request);
     }
 
     /**
@@ -83,7 +83,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfString($barcode);
 
-        return $this->call('getProductByBarcode', self::wrapRequest($request));
+        return $this->ccpCall('getProductByBarcode', $request);
     }
 
     /**
@@ -97,7 +97,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfString($external_id);
 
-        return $this->call('getProductByExternalProductId', self::wrapRequest($request));
+        return $this->ccpCall('getProductByExternalProductId', $request);
     }
 
     /**
@@ -111,7 +111,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfInt32($id);
 
-        return $this->call('getProductByID', self::wrapRequest($request));
+        return $this->ccpCall('getProductByID', $request);
     }
 
     /**
@@ -125,7 +125,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfString($sku);
 
-        return $this->call('getProductByManufacturerSKU', self::wrapRequest($request));
+        return $this->ccpCall('getProductByManufacturerSKU', $request);
     }
 
     /**
@@ -139,7 +139,7 @@ class CCPProductClient extends CCPSoapClient
     {
         $request = new RequestObjectOfInt32($product_id);
 
-        return $this->call('getProductImages', self::wrapRequest($request));
+        return $this->ccpCall('getProductImages', $request);
     }
 	
     /**
@@ -156,7 +156,7 @@ class CCPProductClient extends CCPSoapClient
         $apiProduct->setBrandID(config('ccp.brand_id'));
         $request = new RequestObjectOfAPIProduct($apiProduct);
 
-        $this->call("AddProduct", self::wrapRequest($request));
+        return $this->ccpCall("AddProduct", $request);
     }
 
 }
