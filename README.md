@@ -24,12 +24,12 @@ Add your 'brand_id' and 'hash' to config/ccpapi.php file and that should be ever
 At the minute, each seperate service has its own object :
 
 ```
-use AKaa\CCPCLient\Client\ProductClient;
-use AKaa\CCPCLient\Client\ProductRangeClient;
-use AKaa\CCPCLient\Client\ProductOptionClient;
-use AKaa\CCPCLient\Client\OrderClient;
-use AKaa\CCPCLient\Client\PaymentClient;
-use AKaa\CCPCLient\Client\CustomerClient;
+use AKaa\CCPClient\Client\ProductClient;
+use AKaa\CCPClient\Client\ProductRangeClient;
+use AKaa\CCPClient\Client\ProductOptionClient;
+use AKaa\CCPClient\Client\OrderClient;
+use AKaa\CCPClient\Client\PaymentClient;
+use AKaa\CCPClient\Client\CustomerClient;
 ```
 
 To use the API, get an instance of the service youd like to use 
