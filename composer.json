@@ -1,0 +1,18 @@
+{
+    "name": "aaronkaa/ccpclient",
+    "description": "Cloud Commerce Pro API Client for Laravel",
+    "authors": [
+        {
+            "name": "Aaron Carr",
+            "email": "aar.carr@icloud.com"
+        }
+    ],
+    "require": {
+	    "php": ">=5.6.0"
+    },
+    "autoload": {
+         "psr-4": {
+            "AKaa\\CCPApi\\": "src"
+        }
+    }
+}
