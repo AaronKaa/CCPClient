@@ -2,11 +2,11 @@
 namespace AKaa\CCPApi\Client;
 
 /**
- * CCPPaymentClient class.
+ * PaymentClient class.
  *
  * @extends CCPSoapClient
  */
-class CCPPaymentClient extends CCPSoapClient
+class PaymentClient extends CCPSoapClient
 {
     protected $servicepoint = "CCPApiPaymentService.svc";
 }

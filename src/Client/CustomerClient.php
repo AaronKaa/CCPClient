@@ -2,11 +2,11 @@
 namespace AKaa\CCPApi\Client;
 
 /**
- * CCPCustomerClient class.
+ * CustomerClient class.
  *
  * @extends CCPSoapClient
  */
-class CCPCustomerClient extends CCPSoapClient
+class CustomerClient extends CCPSoapClient
 {
     protected $servicepoint = "CCPApiCustomerService.svc";
 }

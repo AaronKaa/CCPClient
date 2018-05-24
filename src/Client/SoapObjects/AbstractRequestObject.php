@@ -51,8 +51,8 @@ abstract class AbstractRequestObject {
 	    
 	    $this->Content = $content;
 	    
-	    $this->BrandID = config('ccp.brand_id');
-		$this->SecurityHash = config('ccp.hash');
+	    $this->BrandID = config('ccpapi.brand_id');
+		$this->SecurityHash = config('ccpapi.hash');
     }
     
     /**

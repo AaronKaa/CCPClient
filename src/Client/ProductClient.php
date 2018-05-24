@@ -12,11 +12,11 @@ use AKaa\CCPApi\Client\SoapObjects\Product\RequestObjectOfAPIProductGetProductLi
 use AKaa\CCPApi\Client\Entities\APIProduct;
 
 /**
- * CCPProductClient class.
+ * ProductClient class.
  *
  * @extends CCPSoapClient
  */
-class CCPProductClient extends CCPSoapClient
+class ProductClient extends CCPSoapClient
 {
     /**
      * servicepoint
@@ -153,7 +153,7 @@ class CCPProductClient extends CCPSoapClient
     {
 
         $apiProduct = new APIProduct($product);
-        $apiProduct->setBrandID(config('ccp.brand_id'));
+        $apiProduct->setBrandID(config('ccpapi.brand_id'));
         $request = new RequestObjectOfAPIProduct($apiProduct);
 
         return $this->ccpCall("AddProduct", $request);
