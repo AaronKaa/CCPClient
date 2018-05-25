@@ -23,7 +23,7 @@ Add your 'brand_id' and 'hash' to config/ccpapi.php file and that should be ever
 
 At the minute, each seperate service has its own object :
 
-```
+```php
 use AKaa\CCPClient\Client\ProductClient;
 use AKaa\CCPClient\Client\ProductRangeClient;
 use AKaa\CCPClient\Client\ProductOptionClient;
@@ -34,7 +34,7 @@ use AKaa\CCPClient\Client\CustomerClient;
 
 To use the API, get an instance of the service youd like to use 
 
-```
+```php
 $productClient = new ProductClient();
 
 $result = $productClient->getProductByID(12345);
