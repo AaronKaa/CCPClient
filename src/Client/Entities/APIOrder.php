@@ -57,14 +57,19 @@ class APIOrder
     protected $items = null;
 
     /**
-     * @param boolean $isPickListPrinted
-     * @param int $PickStatus
-     * @param int $ID
-     * @param boolean $DropshipDetected
+     * __construct function.
+     * 
+     * @access public
+     * @param array $order_details (default: null)
+     * @return void
      */
-    public function __construct()
+    public function __construct(array $order_details = null)
     {
-
+		if ($order_details) {
+            foreach ($order_details as $key => $value) {
+                $this->$key = $value;
+            }
+        }
     }
 
     /**
