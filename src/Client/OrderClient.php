@@ -32,7 +32,7 @@ class OrderClient extends CCPSoapClient
     {
         $getOrdersRequest = new APIGetOrdersRequest();
 
-        $getOrdersRequest->setDtFilter($date ?? date(DATE_ATOM)
+        $getOrdersRequest->setDtFilter($date ?? date(DATE_ATOM))
                         ->setStrCustType($customer_type)
                         ->setNumberofdays($no_of_days)
                         ->setStrPriority($priority)

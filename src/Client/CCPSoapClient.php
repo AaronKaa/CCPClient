@@ -13,9 +13,9 @@ class CCPSoapClient extends SoapService
 
     /**
      * namespace
-     * 
+     *
      * (default value: 'http://tempuri.org/')
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -23,17 +23,17 @@ class CCPSoapClient extends SoapService
 
     /**
      * servicebase
-     * 
-     * (default value: "http://wcfccpservicesbase.cloudcommercepro.com/")
-     * 
+     *
+     * (default value: "https://wcfccpservicesbase.cloudcommercepro.com/")
+     *
      * @var string
      * @access protected
      */
-    protected $servicebase = "http://wcfccpservicesbase.cloudcommercepro.com/";
+    protected $servicebase = "https://wcfccpservicesbase.cloudcommercepro.com/";
 
     /**
      * servicepoint
-     * 
+     *
      * @var mixed
      * @access protected
      */
@@ -41,9 +41,9 @@ class CCPSoapClient extends SoapService
 
     /**
      * trace
-     * 
+     *
      * (default value: true)
-     * 
+     *
      * @var bool
      * @access protected
      */
@@ -51,18 +51,22 @@ class CCPSoapClient extends SoapService
 
     /**
      * __construct function.
-     * 
+     *
      * @access public
      */
     public function __construct()
     {
+        if(empty($this->servicepoint)){
+            throw new \Exception("You need to specify a client servicepoint", 1);
+        }
+        
         $this->wsdl = $this->servicebase . $this->servicepoint . '?wsdl';
         parent::__construct();
     }
 
     /**
      * wrapRequest function.
-     * 
+     *
      * @access public
      * @param mixed $request
      * @return array
@@ -71,10 +75,10 @@ class CCPSoapClient extends SoapService
     {
         return ['parameters' => ['request' => $request]];
     }
-    
+
     /**
      * ccpCall function.
-     * 
+     *
      * @access public
      * @param mixed $function
      * @param mixed $request

@@ -1,11 +1,28 @@
 <?php
 namespace AKaa\CCPApi\Client\Entities;
 
+use AKaa\CCPApi\Client\Entities\StatusID;
+
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPIAmazonVariation;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPIEbayVariation;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfPackageProductWithQuantity;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPISalesChannelLink;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPIProductRangeOptionValue;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPIProductImage;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfItemBayStockLevel;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfSupplierOrderItem;
+use AKaa\CCPApi\Client\SoapObjects\Product\Arrays\ArrayOfAPIProductSupplierLink;
+
+
 /**
  * APIProduct class.
  */
 class APIProduct
 {
+    /**
+     * @var string $BarCodeNumber
+     */
+    protected $ID = 0;
     /**
      * @var string $BarCodeNumber
      */
@@ -77,11 +94,6 @@ class APIProduct
     protected $SalesChannelLinks = null;
 
     /**
-     * @var int $ID
-     */
-    protected $ID = null;
-
-    /**
      * @var int $BrandID
      */
     protected $BrandID = null;
@@ -129,12 +141,12 @@ class APIProduct
     /**
      * @var int $AmazonVariationID
      */
-    protected $AmazonVariationID = null;
+    protected $AmazonVariationID = 0;
 
     /**
      * @var int $EbayVariationID
      */
-    protected $EbayVariationID = null;
+    protected $EbayVariationID = 0;
 
     /**
      * @var int $ProductRangeID
@@ -179,7 +191,7 @@ class APIProduct
     /**
      * @var int $ProductType
      */
-    protected $ProductType = null;
+    protected $ProductType = 1;
 
     /**
      * @var int $ProductVATRate
@@ -225,6 +237,37 @@ class APIProduct
      * @var ArrayOfSupplierOrderItem $OnOrder
      */
     protected $OnOrder = null;
+    
+    /**
+     * @var int $PurchaseOrderMaxStock
+     */
+    protected $PurchaseOrderMaxStock = null;
+    
+    /**
+     * @var int $PurchaseOrderAtStockQuantity
+     */
+    protected $PurchaseOrderAtStockQuantity = null;
+    
+    /**
+     * @var ArrayOfSupplierOrderItem $OnOrder
+     */
+    protected $PurchaseOrderStockType = null;
+        
+    /**
+     * @var int $PurchaseOrderBoxQuantity
+     */
+    protected $PurchaseOrderBoxQuantity = null;
+    
+    /**
+     * @var int $OnOrder
+     */
+    protected $ProductStockType = null;
+    
+    /**
+     * @var int $OnOrder
+     */
+    protected $DispatchIdentifierOption = null;
+    
 
     /**
      * __construct function.
@@ -237,9 +280,17 @@ class APIProduct
     {
         if ($product_details) {
             foreach ($product_details as $key => $value) {
-                $this->$key = $value;
+                $setKey = 'set'.$key;
+                $this->$setKey($value);
             }
         }
+        
+        $this->AmazonVariations = new ArrayOfAPIAmazonVariation;
+	    $this->EbayVariations = new ArrayOfAPIEbayVariation;
+	    $this->packItems = new ArrayOfPackageProductWithQuantity;
+	    $this->SalesChannelLinks = new ArrayOfAPISalesChannelLink;
+	    $this->SupplierProductLinks = new ArrayOfAPIProductSupplierLink;
+        
     }
 
     /**
@@ -544,7 +595,7 @@ class APIProduct
      */
     public function setName($name)
     {
-        $this->Name = $Name;
+        $this->Name = $name;
         return $this;
     }
 
@@ -907,7 +958,7 @@ class APIProduct
     }
 
     /**
-     * @param StatusID $StatusID
+     * @param String $StatusID
      * @return APIProduct
      */
     public function setStatusID($statusID)

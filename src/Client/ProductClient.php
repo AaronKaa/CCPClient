@@ -141,21 +141,20 @@ class ProductClient extends CCPSoapClient
 
         return $this->ccpCall('getProductImages', $request);
     }
-	
+
     /**
      * addProduct function.
-     * 
+     *
      * @access public
      * @param array $product
      * @return void
      */
     public function addProduct(array $product)
     {
-
         $apiProduct = new APIProduct($product);
         $apiProduct->setBrandID(config('ccpapi.brand_id'));
         $request = new RequestObjectOfAPIProduct($apiProduct);
-
+        //dd($request);
         return $this->ccpCall("AddProduct", $request);
     }
 
