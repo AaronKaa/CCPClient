@@ -2,5 +2,7 @@
 
 return [
 	        "brand_id" => "",
-	        "hash" => ""
+	        "hash" => "",
+	        "base_url" => "",
+	        "sandbox_base_url" => ""
         ];

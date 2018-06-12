@@ -86,6 +86,18 @@ class CCPSoapClient extends SoapService
      */
     public function ccpCall($function, $request)
     {
-	    return $this->call($function, self::wrapRequest($request));
+	    $r = $this->call($function, self::wrapRequest($request));
+	    
+	    //The returned object is generally of the form [function name] + 'Result'
+	    $responseObject = $function.'Result';
+	    
+	    if(!$r->$responseObject->Success){
+		    
+		    $errors = implode("\n",$r->$responseObject->Errors);
+		    
+			throw new \Exception($r->$responseObject->ErrorLevel." : ".$errors);
+	    }
+	    
+	    return $r->$responseObject->Content;
     }
 }

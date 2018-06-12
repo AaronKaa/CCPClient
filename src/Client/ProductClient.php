@@ -5,9 +5,9 @@ use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfString;
 use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfInt32;
 use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfListOfString;
 
-use AKaa\CCPApi\Client\SoapObjects\Product\APIProductGetProductListRequest;
-use AKaa\CCPApi\Client\SoapObjects\Product\RequestObjectOfAPIProduct;
-use AKaa\CCPApi\Client\SoapObjects\Product\RequestObjectOfAPIProductGetProductListRequest;
+use AKaa\CCPApi\Client\SoapObjects\Product\Request\APIProductGetProductListRequest;
+use AKaa\CCPApi\Client\SoapObjects\Product\Request\RequestObjectOfAPIProduct;
+use AKaa\CCPApi\Client\SoapObjects\Product\Request\RequestObjectOfAPIProductGetProductListRequest;
 
 use AKaa\CCPApi\Client\Entities\APIProduct;
 
@@ -154,8 +154,59 @@ class ProductClient extends CCPSoapClient
         $apiProduct = new APIProduct($product);
         $apiProduct->setBrandID(config('ccpapi.brand_id'));
         $request = new RequestObjectOfAPIProduct($apiProduct);
-        //dd($request);
+
         return $this->ccpCall("AddProduct", $request);
+    }
+    
+    /**
+     * setStockLevel function.
+     * 
+     * @access public
+     * @param mixed $product_id
+     * @param mixed $quantity
+     * @param mixed $reason
+     * @return void
+     */
+    public function setStockLevel($product_id, $quantity, $reason) 
+    {
+	    $apiProductStockTransaction = new APIProductStockTransaction($product_id, $quantity, $reason, "id");
+	    $request = new RequestObjectOfAPIProductStockTransaction($apiProductStockTransaction);
+	    
+	    return $this->ccpCall("setStockLevel", $request);
+    }
+    
+    /**
+     * setStockLevelByProductCode function.
+     * 
+     * @access public
+     * @param mixed $product_code
+     * @param mixed $quantity
+     * @param mixed $reason
+     * @return void
+     */
+    public function setStockLevelByProductCode($product_code, $quantity, $reason) 
+    {
+	    $apiProductStockTransaction = new APIProductStockTransaction($product_code, $quantity, $reason, "code");
+	    $request = new RequestObjectOfAPIProductStockTransaction($apiProductStockTransaction);
+	    
+	    return $this->ccpCall("setStockLevelByProductCode", $request);
+    }
+    
+    /**
+     * setStockLevelBySKU function.
+     * 
+     * @access public
+     * @param mixed $sku
+     * @param mixed $quantity
+     * @param mixed $reason
+     * @return void
+     */
+    public function setStockLevelBySKU($sku, $quantity, $reason) 
+    {
+	    $apiProductStockTransaction = new APIProductStockTransaction($sku, $quantity, $reason, "sku");
+	    $request = new RequestObjectOfAPIProductStockTransaction($apiProductStockTransaction);
+	    
+	    return $this->ccpCall("setStockLevelBySKU", $request);
     }
 
 }
