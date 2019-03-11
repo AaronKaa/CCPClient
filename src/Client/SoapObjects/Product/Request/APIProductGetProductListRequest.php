@@ -20,17 +20,24 @@ class APIProductGetProductListRequest
      * @var int $SalesChannelID
      */
     protected $SalesChannelID = null;
+    
+    
+    /**
+     * @var array $SKUList
+     */
+    protected $SKUList = [];
 
     /**
      * @param int $Start
      * @param int $End
      * @param int $SalesChannelID
      */
-    public function __construct($start = null, $end = null, $salesChannelID = null)
+    public function __construct($start = null, $end = null, $salesChannelID = null, $skuList = null)
     {
       $this->Start = $start;
       $this->End = $end;
       $this->SalesChannelID = $salesChannelID;
+      $this->SKUList = $skuList;
     }
 
     /**

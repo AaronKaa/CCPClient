@@ -38,6 +38,26 @@ class CCPSoapClient extends SoapService
      * @access protected
      */
     protected $servicepoint;
+    
+    /**
+     * exceptions
+     * 
+     * (default value: true)
+     * 
+     * @var bool
+     * @access protected
+     */
+    protected $exceptions = true;
+    
+    /**
+     * cache_wsdl
+     * 
+     * (default value: WSDL_CACHE_NONE)
+     * 
+     * @var mixed
+     * @access protected
+     */
+    protected $cache_wsdl = WSDL_CACHE_NONE;
 
     /**
      * trace
@@ -87,17 +107,17 @@ class CCPSoapClient extends SoapService
     public function ccpCall($function, $request)
     {
 	    $r = $this->call($function, self::wrapRequest($request));
-	    
 	    //The returned object is generally of the form [function name] + 'Result'
+	    
 	    $responseObject = $function.'Result';
 	    
 	    if(!$r->$responseObject->Success){
+			//dd($r);
+		    $errors = json_encode($r->$responseObject->Errors);
 		    
-		    $errors = implode("\n",$r->$responseObject->Errors);
-		    
-			throw new \Exception($r->$responseObject->ErrorLevel." : ".$errors);
+			throw new \ErrorException($function ." : " . $r->$responseObject->ErrorLevel." : ".$errors);
 	    }
-	    
+
 	    return $r->$responseObject->Content;
     }
 }

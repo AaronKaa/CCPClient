@@ -12,7 +12,7 @@ class APIProductRange
     /**
      * @var int $ID
      */
-    protected $ID = null;
+    protected $ID = 0;
 
     /**
      * @var int $BrandID
@@ -22,12 +22,12 @@ class APIProductRange
     /**
      * @var int $CategoryID
      */
-    protected $CategoryID = 0;
+//     protected $CategoryID = 0;
 
     /**
      * @var string $Manufacturer
      */
-    protected $Manufacturer = null;
+//     protected $Manufacturer = null;
 
     /**
      * @var string $ManufacturerSKU
@@ -42,52 +42,52 @@ class APIProductRange
     /**
      * @var string $NeckShape
      */
-    protected $NeckShape = null;
+//     protected $NeckShape = "";
 
     /**
      * @var boolean $EndOfLine
      */
-    protected $EndOfLine = false;
+//     protected $EndOfLine = false;
 
     /**
      * @var boolean $PreOrder
      */
-    protected $PreOrder = false;
+//     protected $PreOrder = false;
 
     /**
      * @var int $Weight
      */
-    protected $Weight = 0;
+//     protected $Weight = 0;
 
     /**
      * @var \DateTime $LastStockCheck
      */
-    protected $LastStockCheck = null;
+//     protected $LastStockCheck = null;
 
     /**
      * @var boolean $GroupBy
      */
-    protected $GroupBy = false;
+//     protected $GroupBy = false;
 
     /**
      * @var int $WarehousePickOrder
      */
-    protected $WarehousePickOrder = null;
+//     protected $WarehousePickOrder = null;
 
     /**
      * @var StatusID $StatusID
      */
-    protected $StatusID = "Enabled";
+//     protected $StatusID = "Enabled";
 
     /**
      * @var ArrayOfAPIProductRangeOption $options
      */
-    protected $options = null;
+//     protected $options = null;
 
     /**
      * @var ArrayOfAPIProduct $products
      */
-    protected $products = null;
+//     protected $products = null;
 
     /**
      * __construct function.
@@ -105,8 +105,8 @@ class APIProductRange
             }
         }
         
-        $this->products = new ArrayOfAPIProduct;
-        $this->options = new ArrayOfAPIProductRangeOption;
+        //$this->products = new ArrayOfAPIProduct;
+//         $this->options = new ArrayOfAPIProductRangeOption;
     }
 
     /**

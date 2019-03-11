@@ -5,8 +5,14 @@ use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfString;
 use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfInt32;
 use AKaa\CCPApi\Client\SoapObjects\Types\RequestObjectOfListOfString;
 
-use AKaa\CCPApi\Client\SoapObjects\Order\RequestObjectOfAPIGetOrdersRequest;
-use AKaa\CCPApi\Client\SoapObjects\Order\APIGetOrdersRequest;
+use AKaa\CCPApi\Client\SoapObjects\Order\Request\RequestObjectOfAPIGetOrdersRequest;
+use AKaa\CCPApi\Client\SoapObjects\Order\Request\APIGetOrdersRequest;
+use AKaa\CCPApi\Client\SoapObjects\Order\Request\RequestObjectOfApiOrderQueryRequest;
+
+use AKaa\CCPApi\Client\Entities\ApiOrderQuery;
+use AKaa\CCPApi\Client\Entities\ApiOrderQueryRequest;
+
+use Carbon\Carbon;
 
 /**
  * OrderClient class.
@@ -28,19 +34,141 @@ class OrderClient extends CCPSoapClient
      * @param int $no_of_days (default: 1)
      * @return void
      */
-    public function getOrders($date = null, $customer_type = "TradeAndRetail", $priority = "Exported", $order_type = "Undispatched", $no_of_days = 1)
-    {
+    public function getOrders(
+        $date = null,
+        $customer_type = null,
+        $priority = null,
+        $order_type = null,
+        $no_of_days = null
+    ) {
+
         $getOrdersRequest = new APIGetOrdersRequest();
 
         $getOrdersRequest->setDtFilter($date ?? date(DATE_ATOM))
-                        ->setStrCustType($customer_type)
                         ->setNumberofdays($no_of_days)
-                        ->setStrPriority($priority)
-                        ->setStrOrderType($order_type);
+                        ->setIntBrandID(config('ccpapi.brand_id'));
 
         $request = new RequestObjectOfAPIGetOrdersRequest($getOrdersRequest);
 
         return $this->ccpCall('getOrders', $request);
+    }
+
+    /**
+     * getOrderStatusTypes function.
+     *
+     * @access public
+     * @return void
+     */
+    public function getOrderStatusTypes()
+    {
+        $types = [
+                    'ready',
+                    'picked',
+                    'picking',
+                    'packed',
+                    'packing',
+                    'shipped',
+                    'partiallyshipped',
+                    'dropshipdetected',
+                    'dropshipemailsent',
+                    'advanceddropshipemailsent',
+                    'DeliveryAddressChange',
+                    'BillingAddressChange',
+                    'ShippingRuleChange',
+                    'StatusDescriptionChange',
+                    'DispatchDateChange',
+                    'Paid',
+                    'Created',
+                    'Edited',
+                    'Unallocated',
+                    'Cancelled',
+                    'Allocated',
+                    'Returned',
+                    'Ignored',
+                    'Refunded'];
+
+        return $types;
+    }
+
+    /**
+     * search function.
+     *
+     * @access public
+     * @param mixed $start_date (default: null)
+     * @return void
+     */
+    public function search(
+        $start_date = null,
+        $end_date = null,
+        $skip = 0,
+        $take = 1000,
+        $sales_channel_id = 0,
+        $customer_order_status_types = null
+    ) {
+
+
+	    if(is_null($customer_order_status_types)){
+		    $customer_order_status_types = $this->getOrderStatusTypes();
+	    }
+
+        $orderQuery = new ApiOrderQuery(config('ccpapi.brand_id'));
+        $orderQuery->setStartDate($start_date ?? Carbon::now()->subDay())
+                ->setEndDate($end_date ?? $start_date->addDay())
+                ->setSkip($skip)
+                ->setTake($take)
+                ->setSalesChannelID($sales_channel_id)
+                ->setCustomerOrderStatusTypes('Created,ready,shipped,picked,picking,packed');
+
+        $request = new RequestObjectOfApiOrderQueryRequest($orderQuery);
+        return $this->ccpCall('Search', $request);
+    }
+    
+    public function getDespatchedOrders(
+        $start_date = null,
+        $end_date = null,
+        $skip = 0,
+        $take = 1000,
+        $sales_channel_id = 0,
+        $customer_order_status_types = null
+    ) {
+		
+		if(is_null($start_date)){
+			$start_date = Carbon::now()->subDay();
+		}
+		
+	    if(is_null($customer_order_status_types)){
+		    $customer_order_status_types = $this->getOrderStatusTypes();
+	    }
+
+        $orderQuery = new ApiOrderQuery(config('ccpapi.brand_id'));
+        $orderQuery->setStartDate($start_date)
+                ->setEndDate($end_date ?? $start_date->addHours(12))
+                ->setSkip($skip)
+                ->setTake($take)
+                ->setSalesChannelID($sales_channel_id)
+                ->setCustomerOrderStatusTypes('Created,ready,shipped,picked,picking,packed');
+
+        $request = new RequestObjectOfApiOrderQueryRequest($orderQuery);
+        return $this->ccpCall('GetDispatchedOrders', $request);
+    }
+
+    /**
+     * getCompletedOrdersNoOfDays function.
+     * 
+     * @access public
+     * @return void
+     */
+    public function getCompletedOrdersNoOfDays($skip = 0, $take = 50, $no_of_days = 50)
+    {
+	    $orderQuery = new ApiOrderQueryRequest(config('ccpapi.brand_id'));
+        $orderQuery->setSkip($skip)
+                ->setTake($take)
+                ->setNoOfDays($no_of_days);
+               // ->setCustomerOrderStatusTypes('Created,ready,shipped,picked,picking,packed');
+
+        $request = new RequestObjectOfApiOrderQueryRequest($orderQuery);
+        
+        return $this->ccpCall('getCompletedOrdersNoOfDays', $request);
     }
 
     /**
@@ -98,6 +226,8 @@ class OrderClient extends CCPSoapClient
 
         return $this->ccpCall('getOrderDetailsByReference', $request);
     }
+    
+    //
 
     public function getOrdersForDispatch()
     {
@@ -137,11 +267,6 @@ class OrderClient extends CCPSoapClient
     public function getNotPickedOrders()
     {
         return $this->ccpCall('getNotPickedOrders', $request);
-    }
-
-    public function getCompletedOrdersNoOfDays()
-    {
-        return $this->ccpCall('getCompletedOrdersNoOfDays', $request);
     }
 
     public function getUnprocessedOrders()

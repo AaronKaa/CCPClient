@@ -28,6 +28,7 @@ class ProductRangeClient extends CCPSoapClient
     {
         $productRange = new APIProductRange($productrange_details);
         $request = new RequestObjectOfAPIProductRange($productRange);
+        //dd($request);
         return $this->ccpCall('addProductRange', $request);
     }
 
